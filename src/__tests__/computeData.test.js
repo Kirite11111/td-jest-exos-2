@@ -1,7 +1,6 @@
 import { computeDataError } from '../computeDataError';
 import { setResponseError, STATUS_HTTP_MESSAGES } from '../setResponseError';
 
-// Mock des dépendances
 jest.mock('../setResponseError');
 
 describe('computeDataError', () => {
