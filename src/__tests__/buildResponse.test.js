@@ -8,6 +8,7 @@ describe('buildResponse', () => {
   const mockJsonResponse = { data: 'mockData' };
   const mockTextResponse = 'mockText';
   const mockBlobResponse = new Blob(['mockBlob'], { type: 'text/plain' });
+  const mockStatus = 418;
 
   const mockResponse = (status, responseBody, isBlob = false, isText = false) => ({
     status,
@@ -24,7 +25,6 @@ describe('buildResponse', () => {
     const response = mockResponse(STATUS_API.SUCCESS, mockJsonResponse);
     const config = {};
     const result = await buildResponse(response, config);
-
     expect(result).toEqual({ ...mockJsonResponse, statusHttp: STATUS_API.SUCCESS });
   });
 
@@ -59,4 +59,15 @@ describe('buildResponse', () => {
 
     await expect(buildResponse(response, config)).rejects.toThrow('Mock warning');
   });
+
+  it('should return default statusHttp object for unhandled status codes', async () => {
+    const response = mockResponse(mockStatus, {});
+    const config = {};
+    const result = await buildResponse(response, config);
+  
+    expect(result).toEqual({
+      statusHttp: mockStatus,
+    });
+  });
+  
 });
